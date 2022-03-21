@@ -1,23 +1,17 @@
-import logo from './logo.svg';
 import './App.css';
+import {useEffect, useState} from 'react'
+import {FileUploader} from './FileUploader';
 
 function App() {
+  const [fileUrl, setFileUrl] = useState("");
+
+  useEffect(() => {
+		console.log("changed file url", fileUrl)
+	}, [fileUrl]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+     <FileUploader setFileUrl={setFileUrl} />
     </div>
   );
 }

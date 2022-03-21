@@ -1,70 +1,60 @@
-# Getting Started with Create React App
+# Getting Started with Firebase File Upload
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+To add Firebase file upload to your capstone, you will need to set-up a firebase account, create an app in the firebase account, and connect your capstone to the firebase app.
 
-## Available Scripts
+## Firebase Steps
 
-In the project directory, you can run:
+1. Go to firebase.com and create/sign into an account.  You will need a gmail account to do this.
+1. Click the "Add Project" button
+1. Give the project a name and click continue
+1. Click Continue
+1. Choose the Default Account for Firebase on the Configure Google Analytics and click "Create Project".  This will take you to the project dashboard.
+1. At the top of the project dashboard, click "Add App".  Then select the </> (Web) option. Name the app and click "Register app".  This will take you to a page with your app's credentials.  
+    You can also get to the credentials under Project Settings - General (scroll down a bit).
+1. From your Firebase dashboard, click on Storage then "Get Started" 
+    - a "Set up Cloud Storage" modal will appear.  Make sure that the settings are:
 
-### `npm start`
+      ```
+        rules_version = '2';
+        service firebase.storage {
+          match /b/{bucket}/o {
+            match /{allPaths=**} {
+              allow read, write: if true;
+            }
+          }
+        }
+      ```
+    - If you are returning, you can click on the "Rules" tab to edit the rules
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+    *NOTE: These settings allow anyone to access your bucket and should not be used in a production environment.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+## Add Template Code to your Capstone
 
-### `npm test`
+1. Set-up environment variables
+    - Add a file named `.env` to your root directory (if you have not already done so)
+    - Add `.env` to the `.gitignore` file (if you have not already done so)
+    - Add the following with your Firebase credentials to the `.env` file
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+        ```
+          REACT_APP_FB_apiKey={{YOUR VALUE}}
+          REACT_APP_FB_authDomain={{YOUR VALUE}}
+          REACT_APP_FB_projectId={{YOUR VALUE}}
+          REACT_APP_FB_storageBucket={{YOUR VALUE}}
+          REACT_APP_FB_messagingSenderId={{YOUR VALUE}}
+          REACT_APP_FB_appId=1:{{YOUR VALUE}}9
+          REACT_APP_FB_measurementId={{YOUR VALUE}}
 
-### `npm run build`
+        ```
+1. Add the templates to your project
+    - Add the firebase.js and FileUploader.js files your project
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+1. Incorporate the template into your project
+    In the component in which you would like to upload a file you need to:
+    - Import the FileUploader component
+    - Create a useState hook for storing the uploaded url
+    - Add `<FileUploader setFileUrl={setFileUrl} />` to your code where `{setFileUrl}` contains the set function for your url hook.
+1. Test that you can upload a file.  
+    - there should be no errors in your dev tools console
+    - you should see the file in your Firebase app under storage/files
+    - use React dev tool to check that the `filrUrl` useState hook is set with the url to the file
+1. Refactor to fit your app's style and needs.

@@ -1,6 +1,10 @@
 # Getting Started with Firebase File Upload
 
+Before you begin, make sure your code is up-to-date on Github and you have created a new branch.
+
 To add Firebase file upload to your capstone, you will need to set-up a firebase account, create an app in the firebase account, and connect your capstone to the firebase app.
+
+The template was adapted from this video: https://www.youtube.com/watch?v=pJ8LykeBDo4
 
 ## Firebase Steps
 
